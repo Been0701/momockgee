@@ -118,12 +118,27 @@
                 });
             }
         }
+
+
+        const login_pop = () => {
+                        $.ajax({
+                success: function (response) {
+                    alert("환영합니다!")
+                    window.location.replace("/login")
+                }
+            });
+            {##}
+            {#window.location.replace("/login")#}
+        }
+
     </script>
 </head>
 <body>
     <div class="header">
         <a href="/posts"><button>글쓰기</button></a>
-        <button>로그인</button>
+{#        <button>로그인</button>#}
+        <button onclick="login_pop()">로그인</button>
+
     </div>
     <div class="title">
         <h1>편의점에서 뭐 먹지?</h1>
