@@ -5,7 +5,6 @@ import datetime
 import hashlib
 from datetime import datetime, timedelta
 from search import search_keyword
-from store import store_list
 import os.path
 from post_id import create_post_id
 
@@ -83,15 +82,12 @@ def check_dup():
 def post_search():
     keyword_receive = request.form["keyword_give"]
     results = search_keyword(keyword_receive)
-    print(results)
-    results_list = store_list(results)
-    return jsonify({'search_results': results_list})
+    return jsonify({'search_results': results})
 
 @app.route("/all_products", methods=["GET"])
 def get_all_products():
     all_products_list = list(db.posting.find({},{'_id':False}))
-    products_list = store_list(all_products_list)
-    return jsonify({'all_products': products_list})
+    return jsonify({'all_products': all_products_list})
 
 @app.route('/posts')
 def post_page():

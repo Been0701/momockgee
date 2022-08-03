@@ -55,7 +55,6 @@
     </style>
 </head>
 <script>
-
     function post() {
         let post_product = $('#post_product').val()
         let post_store = new Array();
@@ -63,6 +62,7 @@
         $("input[name=post_store]:checked").each(function () {
             post_store.push($(this).val()); //배열에 값넣기
         });
+        console.log(post_store)
 
         let post_star = $('#star').val()
         let post_content = $('#content').val()
@@ -118,11 +118,11 @@
             <div class="wrap_store">
                 <tr class="store_row">
                     <td class="store_item">구입처</td>
-                    <td class="store_item"><input type="checkbox" id="cu" name="post_store" value="1">씨유</td>
-                    <td class="store_item"><input type="checkbox" id="gs" name="post_store" value="2">지에스</td>
-                    <td class="store_item"><input type="checkbox" id="seven" name="post_store" value="3">세븐일레븐</td>
-                    <td class="store_item"><input type="checkbox" id="stop" name="post_store" value="4">미니스톱</td>
-                    <td class="store_item"><input type="checkbox" id="emart" name="post_store" value="5">이마트24</td>
+                    <td class="store_item"><input type="checkbox" id="cu" name="post_store" value="CU">씨유</td>
+                    <td class="store_item"><input type="checkbox" id="gs" name="post_store" value="GS">지에스</td>
+                    <td class="store_item"><input type="checkbox" id="seven" name="post_store" value="세븐일레븐">세븐일레븐</td>
+                    <td class="store_item"><input type="checkbox" id="stop" name="post_store" value="미니스톱">미니스톱</td>
+                    <td class="store_item"><input type="checkbox" id="emart" name="post_store" value="이마트24">이마트24</td>
                 </tr>
             </div>
             <tr>
