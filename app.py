@@ -10,6 +10,7 @@ import os.path
 from post_id import create_post_id
 
 app = Flask(__name__)
+# client = MongoClient("mongodb+srv://test:sparta@cluster0.mndqybx.mongodb.net/Cluster0?retryWrites=true&w=majority")
 client = MongoClient('mongodb+srv://store:food2022@cluster0.himuf.mongodb.net/?retryWrites=true&w=majority')
 db = client.momockgee
 
@@ -17,7 +18,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
-upload_forder = './upload'
+upload_forder = './static/upload'
 if not os.path.exists(upload_forder):
     os.makedirs(upload_forder)
 
@@ -98,52 +99,29 @@ def post_page():
 
 @app.route('/posts', methods=['POST'])
 def post():
-    ##### file
-    # f = request.files.get('file')
-    # file_dir = upload_forder + '/' + f.filename
-    # f.save(file_dir)
-    # post_img = '.' + file_dir
-    # print(post_img)
-
-    ##### create post id
-    # post_list = list(db.Posting.find({},{'_id':False}))
-    # post_id_list = []
-    # for post_dic in post_list:
-    #     post_id_list.append(post_dic['post_id'])
-    #
-    # # print(post_id_list)
-    # post_id = random.randint(1, 1e7)
-    # while post_id in post_id_list:
-    #     # print('in while')
-    #     post_id = random.randint(1, 1e7)
-
     post_id = create_post_id()
     print(post_id)
 
-    ##### 그 외 front에서 받아 올 것
-    # post_store = {'CU': 1, 'GS': 0, 'seven': 0, 'ministop': 0, 'emart25': 0}
-    # post_content = '너무 맛있고 너무 맛있어요'
-    # post_star = 3
-    # post_product = '계란과자'
-    post_product = request.form["post_product_give"]
-    post_store = request.form["post_store_give"]
-    post_star = request.form["post_star_give"]
-    post_content = request.form["post_content_give"]
-    print(post_product, post_store, post_star, post_content)
+    file = request.files["file_give"]
+    file_dir = upload_forder + '/' + file.filename
+    file.save(file_dir)
+    post_img = '.' + file_dir
 
-    ## post_product 문자 모든 공백 제거
-    # post_product = post_product.replace(" ", "")
+    post_product = request.form['post_product_give']
+    post_store = request.form['post_store_give']
+    post_star = request.form['post_star_give']
+    post_content = request.form['post_content_give']
 
-    ##### db 저장
-    # doc = {
-    #     'post_store': post_store,  # dict
-    #     'post_img': post_img,  # string
-    #     'post_content': post_content,  # string
-    #     'post_star': post_star,  # int
-    #     'post_product': post_product,  # string
-    #     'post_id': post_id,  # int
-    # }
-    # db.posting.insert_one(doc)
+    #### db 저장
+    doc = {
+        'post_store': post_store,  # dict
+        'post_img': post_img,  # string
+        'post_content': post_content,  # string
+        'post_star': post_star,  # int
+        'post_product': post_product,  # string
+        'post_id': post_id,  # int
+    }
+    db.posting.insert_one(doc)
     return jsonify({'msg': '저장완료'})
 
 if __name__ == '__main__':
