@@ -2,9 +2,118 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>편의점에서 뭐먹지?</title>
+    <style>
+        .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: right;
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+        .header > button {
+            margin: 3px;
+        }
+        .title {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            margin: 10px;
+        }
+        .search {
+            width: 350px;
+            margin: 10px auto;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            get_all_products()
+        })
+
+        const get_all_products = () => {
+            $.ajax({
+                type: "GET",
+                url: "/all_products",
+                data: {},
+                success: function (response) {
+                    let rows = response['all_products']
+                    for (let i = rows.length-1; i >= 0; i--) {
+                        console.log(i)
+                        let post_id = rows[i]['post_id']
+                        let post_img = rows[i]['post_img']
+                        let post_product = rows[i]['post_product']
+                        let post_store = rows[i]['post_store']
+                        let post_star = rows[i]['post_star']
+                        let post_content = rows[i]['post_content']
+
+                        let temp_html = `<div class="col">
+                                            <div class="card" id=${post_id}>
+                                                <img src=${post_img} class="card-img-top">
+                                                <div class="card-body">
+                                                    <h5 class="post_product">${post_product}</h5>
+                                                    <p class="post_store">${post_store}</p>
+                                                    <p class="post_star">${post_star}</p>
+                                                    <p class="post_content"${post_content}...</p>
+                                                </div>
+                                            </div>
+                                        </div>`
+                        $('.contents-card').append(temp_html)
+                    }
+                }
+            })
+        }
+
+        const searching = () => {
+            const post_product = $(".searchbox").val().trim()
+            if (post_product !== "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/search',
+                    data: {product_give:post_product},
+                    success: function (response) {
+                        let rows = response['search_results']
+
+                    }
+                });
+            }
+
+        }
+    </script>
 </head>
 <body>
+    <div class="header">
+        <button>글쓰기</button>
+        <button>로그인</button>
+    </div>
+    <div class="title">
+        <h1>편의점에서 뭐 먹지?</h1>
+    </div>
+    <div class="search">
+        <div class="input-group">
+            <input type="text" class="searchbox form-control" placeholder="제품명을 입력하세요">
+            <button class="btn btn-outline-secondary" type="button" onclick="searching()">찾기</button>
+            <button class="btn btn-outline-secondary" type="button" id="details" onclick="op_cl_detail()">상세검색</button>
+        </div>
+    </div>
+    <div class="contents-card">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+        </div>
+    </div>
+
 
 </body>
 </html>
