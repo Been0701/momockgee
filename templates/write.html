@@ -24,8 +24,8 @@
             align-items: center;
         }
 
-        #textbox{
-            width : 500px;
+        #textbox {
+            width: 500px;
         }
 
         /*텍스트 입력값 높이에 따라 공간이 늘어나게 적용*/
@@ -44,7 +44,13 @@
             height: auto;
         }
 
+        h1 {
+            margin: 50px auto;
+        }
 
+        wrap {
+            width: 80%;
+        }
 
     </style>
 </head>
@@ -53,9 +59,19 @@
     function post() {
         let form_data = new FormData($('#upload-file')[0]);
         let post_product = $('#post_product').val()
-        let post_store = $('input[name=post_store]:checked').val()
+
+
+        let post_store = new Array();
+        //checkbox의 name값이 sendCheck이면서 체크되어 있는 함수를 each함수로 호출한다.
+        $("input[name=post_store]:checked").each(function () {
+            post_store.push($(this).val()); //배열에 값넣기
+        });
+
+
         let post_star = $('#star').val()
         let post_content = $('#content').val()
+
+        console.log(post_product, post_store, post_star, post_content)
 
         $.ajax({
             type: 'POST',
@@ -95,55 +111,59 @@
 <div class="post_box">
     <h1>글쓰기 (리뷰 작성)</h1>
     <br>
-    <table>
-        <form name="form" method="POST" action="/posts">
-            <form id="upload-file" method="POST"
-                  enctype="multipart/form-data">
-                <input type="file" name="file"/>
+    <div class="wrap">
+        <table class="table table-striped">
+            <form name="form" method="POST" action="/posts">
+                <form id="upload-file" method="POST"
+                      enctype="multipart/form-data">
+                    <input type="file" name="file"/>
+                </form>
+                <tr>
+                    <td>상품명</td>
+                    <td colspan="5"><input type="text" style="float:left" id="post_product" placeholder="상품명 입력"
+                                           name="post_product"></td>
+                </tr>
+                <div class="wrap_store">
+                    <tr class="store_row">
+                        <td class="store_item">구입처</td>
+                        <td class="store_item"><input type="checkbox" id="cu" name="post_store" value="1">씨유</td>
+                        <td class="store_item"><input type="checkbox" id="gs" name="post_store" value="2">지에스</td>
+                        <td class="store_item"><input type="checkbox" id="seven" name="post_store" value="3">세븐일레븐</td>
+                        <td class="store_item"><input type="checkbox" id="stop" name="post_store" value="4">미니스톱</td>
+                        <td class="store_item"><input type="checkbox" id="emart" name="post_store" value="5">이마트24</td>
+                    </tr>
+                </div>
+                <tr>
+                    <td>별점</td>
+                    <td colspan="5">
+                        <select style="float:left" size="1" name="post_star" id="star">
+                            <option value="5" selected>⭐⭐⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="1">⭐</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>코멘트 (리뷰)</td>
+                    <td id="textbox" colspan="5"><textarea id="content" type="text"
+                                                           placeholder="상품에 대한 리뷰를 자유롭게 입력해 주세요😊"
+                                                           onkeydown="resize(this)" onkeyup="resize(this)"
+                                                           name="post_content"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <button class="btn btn-light" style="float:right" onclick="to_main()">취소</button>
+                    </td>
+                    <td colspan="3">
+                        <button class="btn btn-warning" onclick="post()">글쓰기</button>
+                    </td>
+                </tr>
             </form>
-            <tr>
-                <td>상품명</td>
-                <td><input type="text" id="post_product" placeholder="상품명 입력" name="post_product"></td>
-            </tr>
-            <div class="wrap_store">
-            <tr class="store_row">
-                <td class="store_item">구입처</td>
-                <td class="store_item"><input type="checkbox" name="post_store">씨유</td>
-                <td class="store_item"><input type="checkbox" name="post_store">지에스</td>
-                <td class="store_item"><input type="checkbox" name="post_store">세븐일레븐</td>
-                <td class="store_item"><input type="checkbox" name="post_store">미니스톱</td>
-                <td class="store_item"><input type="checkbox" name="post_store">이마트24</td>
-            </tr>
-            </div>
-            <tr>
-                <td>별점</td>
-                <td>
-                    <select size="1" name="post_star" id="star">
-                        <option value="5" selected>⭐⭐⭐⭐⭐</option>
-                        <option value="4">⭐⭐⭐⭐</option>
-                        <option value="3">⭐⭐⭐</option>
-                        <option value="2">⭐⭐</option>
-                        <option value="1">⭐</option>
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <td>코멘트 (리뷰)</td>
-                <td id="textbox" colspan="5"><textarea id="content" type="text" placeholder="상품에 대한 리뷰를 자유롭게 입력해 주세요😊" onkeydown="resize(this)" onkeyup="resize(this)" name="post_content"></textarea></td>
-            </tr>
-            <tr >
-                <td colspan="3">
-                    <button style="float:right" onclick="to_main()">취소</button>
-                </td>
-                <td colspan="3">
-                    <button onclick="post()">글쓰기</button>
-                </td>
-            </tr>
-        </form>
-
-
-    </table>
+        </table>
+    </div>
 </div>
 
 </body>
