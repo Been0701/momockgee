@@ -63,16 +63,16 @@
                         let star_image = '⭐'.repeat(post_star)
 
                         let temp_html = `<div class="col">
-                                            <div class="card" id=${post_id}>
-                                                <img src=${post_img} class="card-img-top">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${post_product}</h>
-                                                    <p class="card-text">${post_store}</p>
-                                                    <p>${star_image}</p>
-                                                    <p class="post_content"${post_content}</p>
-                                                </div>
+                                            <div class="card" style="max-width: 18rem;" id=${post_id}>
+                                              <img src=${post_img} class="card-img-top" alt="...">
+                                              <div class="card-body">
+                                                <h5 class="card-title">${post_product}</h5>
+                                                <p class="card-text">${post_store}</p>
+                                                <p>${star_image}</p>
+                                                <p>${post_content}</p>
+                                              </div>
                                             </div>
-                                        </div>`
+                                          </div>`
                         $('.contents-card').append(temp_html)
                     }
                 }
@@ -82,6 +82,7 @@
         const searching = () => {
             $('.contents-card').empty()
             const keyword = $(".searchbox").val().trim()
+            $(".searchbox").val("")
             if (keyword !== "") {
                 $.ajax({
                     type: 'POST',
@@ -101,16 +102,16 @@
                             let star_image = '⭐'.repeat(post_star)
 
                             let temp_html2 = `<div class="col">
-                                            <div class="card" style="width: 18rem;" id=${post_id}>
-                                                <img src=${post_img} class="card-img-top">
-                                                <div class="card-body">
-                                                    <h5 class="post_product">${post_product}</h5>
-                                                    <p class="post_store">${post_store}</p>
-                                                    <p class="post_star">${star_image}</p>
-                                                    <p class="post_content"${post_content}</p>
+                                                <div class="card" style="max-width: 18rem;" id=${post_id}>
+                                                  <img src=${post_img} class="card-img-top" alt="...">
+                                                  <div class="card-body">
+                                                    <h5 class="card-title">${post_product}</h5>
+                                                    <p class="card-text">${post_store}</p>
+                                                    <p>${star_image}</p>
+                                                    <p>${post_content}</p>
+                                                  </div>
                                                 </div>
-                                            </div>
-                                        </div>`
+                                              </div>`
                             $('.contents-card').append(temp_html2)
                         }
                     }
