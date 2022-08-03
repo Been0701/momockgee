@@ -6,7 +6,8 @@ import hashlib
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 from search import search_keyword
-
+import os.path
+from post_id import create_post_id
 
 app = Flask(__name__)
 client = MongoClient('mongodb+srv://store:food2022@cluster0.himuf.mongodb.net/?retryWrites=true&w=majority')
@@ -16,20 +17,24 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
+upload_forder = './upload'
+if not os.path.exists(upload_forder):
+    os.makedirs(upload_forder)
+
 # @app.route('/')
 # def home():
 #    return render_template("index.html")
 
 @app.route('/')
 def home():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # token_receive = request.cookies.get('mytoken')
+    # try:
+    #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         return render_template('index.html')
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    # except jwt.ExpiredSignatureError:
+    #     return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    # except jwt.exceptions.DecodeError:
+    #     return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 @app.route('/login')
 def login():
@@ -84,30 +89,55 @@ def get_all_products():
     all_products_list = list(db.posting.find({},{'_id':False}))
     return jsonify({'all_products' : all_products_list})
 
-@app.route("/comment", methods=["GET"])
-def comment_get():
-    comments_list = list(db.comment.find({},{'_id':False}))
-    return jsonify({'msg':'GET 연결 완료!'})
+@app.route('/posts')
+def post_page():
+   return render_template('write.html')
 
+@app.route('/posts', methods=['POST'])
+def post():
+    global cur_max_postid
+    ##### file
+    f = request.files.get('file')
+    file_dir = upload_forder + '/' + f.filename
+    f.save(file_dir)
+    post_img = '.' + file_dir
+    print(post_img)
 
+    ##### create post id
+    # post_list = list(db.Posting.find({},{'_id':False}))
+    # post_id_list = []
+    # for post_dic in post_list:
+    #     post_id_list.append(post_dic['post_id'])
+    #
+    # # print(post_id_list)
+    # post_id = random.randint(1, 1e7)
+    # while post_id in post_id_list:
+    #     # print('in while')
+    #     post_id = random.randint(1, 1e7)
 
-@app.route("/comment", methods=["POST"])
-def comment_post():
-    comment_receive = request.form['comment_give']
-    comment_list = list(db.comment.find({}, {'_id': False}))
-    count = len(comment_list) + 1
+    post_id = create_post_id()
+    print(post_id)
 
+    ##### 그 외 front에서 받아 올 것
+    post_store = {'CU': 1, 'GS': 0, 'seven': 0, 'ministop': 0, 'emart25': 0}
+    post_content = '너무 맛있고 너무 맛있어요'
+    post_star = 3
+    post_product = '계란과자'
+
+    ## post_product 문자 모든 공백 제거
+    # post_product = post_product.replace(" ", "")
+
+    ##### db 저장
     doc = {
-        # 'num': count,
-        'num': 0,
-        'comment': comment_receive
+        'post_store': post_store,  # dict
+        'post_img': post_img,  # string
+        'post_content': post_content,  # string
+        'post_star': post_star,  # int
+        'post_product': post_product,  # string
+        'post_id': post_id,  # int
     }
-
-    db.comment.insert_one(doc)
-    return jsonify({'msg': '등록 완료!'})
-
-
-
+    db.posting.insert_one(doc)
+    return jsonify({'msg': '저장완료'})
 
 if __name__ == '__main__':
    app.run('0.0.0.0', port=5000, debug=True)
