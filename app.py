@@ -6,6 +6,7 @@ import hashlib
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 from search import search_keyword
+from store import store_list
 import os.path
 from post_id import create_post_id
 
@@ -87,7 +88,8 @@ def post_search():
 @app.route("/all_products", methods=["GET"])
 def get_all_products():
     all_products_list = list(db.posting.find({},{'_id':False}))
-    return jsonify({'all_products' : all_products_list})
+    products_list = store_list(all_products_list)
+    return jsonify({'all_products': products_list})
 
 @app.route('/posts')
 def post_page():
@@ -140,4 +142,4 @@ def post():
     return jsonify({'msg': '저장완료'})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0', port=5000, debug=True)
+   app.run('0.0.0.0', port=5001, debug=True)

@@ -12,5 +12,5 @@ def search_keyword(keyword):
         for j in word:
             if j in i['post_product']:
                 results.update(i)
+    return results
 
-    return list(results)
