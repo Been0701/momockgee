@@ -3,7 +3,6 @@ from pymongo import MongoClient
 import jwt
 import datetime
 import hashlib
-from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 from search import search_keyword
 from store import store_list
@@ -12,7 +11,6 @@ from post_id import create_post_id
 
 app = Flask(__name__)
 client = MongoClient('mongodb+srv://store:food2022@cluster0.himuf.mongodb.net/?retryWrites=true&w=majority')
-# client = MongoClient("mongodb+srv://test:sparta@cluster0.mndqybx.mongodb.net/Cluster0?retryWrites=true&w=majority")
 db = client.momockgee
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
