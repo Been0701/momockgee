@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>글쓰기</title>
+    <style>
+        .post_box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #textbox{
+            width : 500px;
+        }
+
+        /*텍스트 입력값 높이에 따라 공간이 늘어나게 적용*/
+        textarea {
+            width: 600px;
+            min-height: 5rem;
+            overflow-y: hidden;
+            resize: none;
+        }
+
+        /*테이블의 각 td들 간격을 일정하게 주도록 조정*/
+        table {
+            width: 700px;
+            table-layout: fixed;
+            word-break: break-all;
+            height: auto;
+        }
+
+
+
+    </style>
+</head>
+<script>
+
+    function post() {
+        let form_data = new FormData($('#upload-file')[0]);
+        let post_product = $('#post_product').val()
+        let post_store = $('input[name=post_store]:checked').val()
+        let post_star = $('#star').val()
+        let post_content = $('#content').val()
+
+        $.ajax({
+            type: 'POST',
+            url: '/posts',
+            data: {
+                post_product_give: post_product,
+                post_stor_give: post_store,
+                post_star_give: post_star,
+                post_content_give: post_content
+            },
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (response) {
+                alert(response['msg'])
+                window.location.reload()
+            }
+
+        })
+    }
+
+    function resize(obj) {
+        obj.style.height = '1px';
+        obj.style.height = (10 + obj.scrollHeight) + 'px';
+    }
+
+
+    function to_main() {
+        window.location.href = "/"
+    }
+
+
+</script>
+
+<body>
+
+<div class="post_box">
+    <h1>글쓰기 (리뷰 작성)</h1>
+    <br>
+    <table>
+        <form name="form" method="POST" action="/posts">
+            <form id="upload-file" method="POST"
+                  enctype="multipart/form-data">
+                <input type="file" name="file"/>
+            </form>
+            <tr>
+                <td>상품명</td>
+                <td><input type="text" id="post_product" placeholder="상품명 입력" name="post_product"></td>
+            </tr>
+            <div class="wrap_store">
+            <tr class="store_row">
+                <td class="store_item">구입처</td>
+                <td class="store_item"><input type="checkbox" name="post_store">씨유</td>
+                <td class="store_item"><input type="checkbox" name="post_store">지에스</td>
+                <td class="store_item"><input type="checkbox" name="post_store">세븐일레븐</td>
+                <td class="store_item"><input type="checkbox" name="post_store">미니스톱</td>
+                <td class="store_item"><input type="checkbox" name="post_store">이마트24</td>
+            </tr>
+            </div>
+            <tr>
+                <td>별점</td>
+                <td>
+                    <select size="1" name="post_star" id="star">
+                        <option value="5" selected>⭐⭐⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="1">⭐</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>코멘트 (리뷰)</td>
+                <td id="textbox" colspan="5"><textarea id="content" type="text" placeholder="상품에 대한 리뷰를 자유롭게 입력해 주세요😊" onkeydown="resize(this)" onkeyup="resize(this)" name="post_content"></textarea></td>
+            </tr>
+            <tr >
+                <td colspan="3">
+                    <button style="float:right" onclick="to_main()">취소</button>
+                </td>
+                <td colspan="3">
+                    <button onclick="post()">글쓰기</button>
+                </td>
+            </tr>
+        </form>
+
+
+    </table>
+</div>
+
+</body>
+
+</html>
