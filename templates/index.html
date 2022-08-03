@@ -80,10 +80,10 @@
         }
 
         const searching = () => {
-            $('.contents-card').empty()
             const keyword = $(".searchbox").val().trim()
-            $(".searchbox").val("")
             if (keyword !== "") {
+                $(".searchbox").val("")
+                $('.contents-card').empty()
                 $.ajax({
                     type: 'POST',
                     url: '/search',
