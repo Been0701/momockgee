@@ -52,7 +52,6 @@
                 success: function (response) {
                     let rows = response['all_products']
                     for (let i = rows.length-1; i >= 0; i--) {
-
                         let post_id = rows[i]['post_id']
                         let post_img = rows[i]['post_img']
                         let post_product = rows[i]['post_product']
@@ -60,13 +59,15 @@
                         let post_star = rows[i]['post_star']
                         let post_content = rows[i]['post_content']
 
+                        let star_image = '⭐'.repeat(post_star)
+
                         let temp_html = `<div class="col">
                                             <div class="card" style="width: 18rem;" id=${post_id}>
                                                 <img src=${post_img} class="card-img-top">
                                                 <div class="card-body">
                                                     <h5 class="post_product">${post_product}</h5>
                                                     <p class="post_store">${post_store}</p>
-                                                    <p class="post_star">${post_star}</p>
+                                                    <p class="post_star">${star_image}</p>
                                                     <p class="post_content"${post_content}...</p>
                                                 </div>
                                             </div>
@@ -78,19 +79,42 @@
         }
 
         const searching = () => {
-            const post_product = $(".searchbox").val().trim()
-            if (post_product !== "") {
+            $('.contents-card').empty()
+            const keyword = $(".searchbox").val().trim()
+            if (keyword !== "") {
                 $.ajax({
                     type: 'POST',
                     url: '/search',
-                    data: {product_give:post_product},
+                    data: {keyword_give: keyword},
                     success: function (response) {
+
                         let rows = response['search_results']
-                        console.log(rows)
+                        for (let i = rows.length - 1; i >= 0; i--) {
+                            let post_id = rows[i]['post_id']
+                            let post_img = rows[i]['post_img']
+                            let post_product = rows[i]['post_product']
+                            let post_store = rows[i]['post_store']
+                            let post_star = rows[i]['post_star']
+                            let post_content = rows[i]['post_content']
+
+                            let star_image = '⭐'.repeat(post_star)
+
+                            let temp_html2 = `<div class="col">
+                                            <div class="card" style="width: 18rem;" id=${post_id}>
+                                                <img src=${post_img} class="card-img-top">
+                                                <div class="card-body">
+                                                    <h5 class="post_product">${post_product}</h5>
+                                                    <p class="post_store">${post_store}</p>
+                                                    <p class="post_star">${star_image}</p>
+                                                    <p class="post_content"${post_content}...</p>
+                                                </div>
+                                            </div>
+                                        </div>`
+                            $('.contents-card').append(temp_html2)
+                        }
                     }
                 });
             }
-
         }
     </script>
 </head>
@@ -110,10 +134,6 @@
     </div>
     <div class="contents">
         <div class="contents-card row row-cols-1 row-cols-md-4 g-4">
-            <div class="col">
-                <div class="card" style="width: 18rem;" id=${post_id}>
-                </div>
-            </div>
         </div>
     </div>
 </body>

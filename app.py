@@ -81,9 +81,11 @@ def check_dup():
 
 @app.route("/search", methods=["POST"])
 def post_search():
-    product_receive = request.form["product_give"]
-    results = search_keyword(product_receive)
-    return jsonify({'search_results': results})
+    keyword_receive = request.form["keyword_give"]
+    results = search_keyword(keyword_receive)
+    print(results)
+    results_list = store_list(results)
+    return jsonify({'search_results': results_list})
 
 @app.route("/all_products", methods=["GET"])
 def get_all_products():
@@ -142,4 +144,4 @@ def post():
     return jsonify({'msg': '저장완료'})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0', port=5001, debug=True)
+   app.run('0.0.0.0', port=5000, debug=True)
