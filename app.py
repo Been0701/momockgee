@@ -112,7 +112,6 @@ def comment_post():
 def post_page():
    return render_template('write.html')
 
-
 @app.route('/posts', methods=['POST'])
 def post():
     global cur_max_postid
@@ -156,9 +155,7 @@ def post():
         'post_product': post_product,  # string
         'post_id': post_id,  # int
     }
-
     db.posting.insert_one(doc)
-
     return jsonify({'msg': '저장완료'})
 
 if __name__ == '__main__':

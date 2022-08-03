@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 
 client = MongoClient("mongodb+srv://test:sparta@cluster0.mndqybx.mongodb.net/Cluster0?retryWrites=true&w=majority")
-# client = MongoClient("mongodb+srv://store:food2022@cluster0.himuf.mongodb.net/?retryWrites=true&w=majority")
 db = client.momockgee
 
 max_postid_ls = list(db.max_postid.find({},{'_id':False}))
