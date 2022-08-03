@@ -9,7 +9,6 @@ from search import search_keyword
 import os.path
 from post_id import create_post_id
 
-
 app = Flask(__name__)
 client = MongoClient('mongodb+srv://store:food2022@cluster0.himuf.mongodb.net/?retryWrites=true&w=majority')
 db = client.momockgee
@@ -89,24 +88,6 @@ def post_search():
 def get_all_products():
     all_products_list = list(db.posting.find({},{'_id':False}))
     return jsonify({'all_products' : all_products_list})
-
-@app.route("/comment", methods=["GET"])
-def comment_get():
-    comments_list = list(db.comment.find({},{'_id':False}))
-    return jsonify({'msg':'GET 연결 완료!'})
-
-@app.route("/comment", methods=["POST"])
-def comment_post():
-    comment_receive = request.form['comment_give']
-    comment_list = list(db.comment.find({}, {'_id': False}))
-    count = len(comment_list) + 1
-    doc = {
-        # 'num': count,
-        'num': 0,
-        'comment': comment_receive
-    }
-    db.comment.insert_one(doc)
-    return jsonify({'msg': '등록 완료!'})
 
 @app.route('/posts')
 def post_page():

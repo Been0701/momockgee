@@ -61,7 +61,7 @@
                         let post_content = rows[i]['post_content']
 
                         let temp_html = `<div class="col">
-                                            <div class="card" id=${post_id}>
+                                            <div class="card" style="width: 18rem;" id=${post_id}>
                                                 <img src=${post_img} class="card-img-top">
                                                 <div class="card-body">
                                                     <h5 class="post_product">${post_product}</h5>
@@ -106,11 +106,10 @@
         <div class="input-group">
             <input type="text" class="searchbox form-control" placeholder="제품명을 입력하세요">
             <button class="btn btn-outline-secondary" type="button" onclick="searching()">찾기</button>
-            <button class="btn btn-outline-secondary" type="button" id="details" onclick="op_cl_detail()">상세검색</button>
         </div>
     </div>
-    <div class="contents-card">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+    <div class="contents">
+        <div class="contents-card row row-cols-1 row-cols-md-4 g-4">
         </div>
     </div>
 
