@@ -11,15 +11,15 @@ import os.path
 from post_id import create_post_id
 
 app = Flask(__name__)
-client = MongoClient("mongodb+srv://test:sparta@cluster0.mndqybx.mongodb.net/Cluster0?retryWrites=true&w=majority")
-# client = MongoClient('mongodb+srv://store:food2022@cluster0.himuf.mongodb.net/?retryWrites=true&w=majority')
+# client = MongoClient("mongodb+srv://test:sparta@cluster0.mndqybx.mongodb.net/Cluster0?retryWrites=true&w=majority")
+client = MongoClient('mongodb+srv://store:food2022@cluster0.himuf.mongodb.net/?retryWrites=true&w=majority')
 db = client.momockgee
 
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 SECRET_KEY = 'SPARTA'
 
-upload_forder = '../static/upload'
+upload_forder = './static/upload'
 if not os.path.exists(upload_forder):
     os.makedirs(upload_forder)
 
@@ -100,12 +100,6 @@ def post_page():
 
 @app.route('/posts', methods=['POST'])
 def post():
-    ##### file
-    # f = request.files.get('file')
-    # file_dir = upload_forder + '/' + f.filename
-    # f.save(file_dir)
-    # post_img = '.' + file_dir
-    # print(post_img)
 
     post_id = create_post_id()
     print(post_id)
@@ -113,28 +107,36 @@ def post():
     file = request.files["file_give"]
     file_dir = upload_forder + '/' + file.filename
     file.save(file_dir)
+    post_img = '.' + file_dir
 
     post_product = request.form['post_product_give']
     post_store = request.form['post_store_give']
     post_star = request.form['post_star_give']
     post_content = request.form['post_content_give']
 
+    ############ previous code ###############
+    # f = request.files.get('file')
+    # file_dir = upload_forder + '/' + f.filename
+    # f.save(file_dir)
+    # post_img = '.' + file_dir
+    # print(post_img)
+
     # post_product = request.form.get("post_product_give", False)
     # post_store = request.form.get("post_store_give", False)
     # post_star = request.form.get("post_star_give", False)
     # post_content = request.form.get("post_content_give", False)
-
+    ##########################################
 
     ##### db 저장
-    # doc = {
-    #     'post_store': post_store,  # dict
-    #     'post_img': post_img,  # string
-    #     'post_content': post_content,  # string
-    #     'post_star': post_star,  # int
-    #     'post_product': post_product,  # string
-    #     'post_id': post_id,  # int
-    # }
-    # db.posting.insert_one(doc)
+    doc = {
+        'post_store': post_store,  # dict
+        'post_img': post_img,  # string
+        'post_content': post_content,  # string
+        'post_star': post_star,  # int
+        'post_product': post_product,  # string
+        'post_id': post_id,  # int
+    }
+    db.posting.insert_one(doc)
     return jsonify({'msg': '저장완료'})
 
 if __name__ == '__main__':
