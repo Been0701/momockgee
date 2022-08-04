@@ -21,22 +21,14 @@ upload_forder = './static/upload'
 if not os.path.exists(upload_forder):
     os.makedirs(upload_forder)
 
-# @app.route('/')
-# def home():
-#    return render_template("index.html")
-
 @app.route('/')
 def home():
-    # return render_template('index.html')
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
 
 
 @app.route('/login')
 def login():
-    # msg = request.args.get("msg")
-    # return render_template('login.html', msg=msg)
-
     return render_template('index.html')
 
 
