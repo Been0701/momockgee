@@ -15,7 +15,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 
-    <title>글쓰기</title>
+    <title>뭐 드셨어요?</title>
     <style>
         @font-face {
             font-family: 'IM_Hyemin-Bold';
@@ -29,6 +29,25 @@
         }
     </style>
     <style>
+
+        .title {
+            width: 100%;
+            height: 400px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1541574823565-f1d660886187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80');
+            background-position: bottom;
+            background-size: cover;
+
+            margin-bottom: 15px;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
 
         .wrap {
             width: 800px;
@@ -55,19 +74,6 @@
             word-break: break-all;
             height: auto;
         }
-
-        h1 {
-            height : 300px;
-            padding-top: 100px;
-            text-align: center;
-            color : white;
-
-            background-image: url('https://images.unsplash.com/photo-1541574823565-f1d660886187?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80');
-            background-size: cover;
-            background-position: bottom;
-
-        }
-
 
     </style>
 </head>
@@ -120,8 +126,9 @@
 <body>
 
 <div class="post_box">
-    <h1> 글쓰기 (리뷰 작성)</h1>
-    <br>
+    <div class="title">
+        <h1>뭐 드셨어요?</h1>
+    </div>
     <div class="wrap">
         <table class="table table-sm">
 
