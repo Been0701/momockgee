@@ -20,17 +20,20 @@
         @font-face {
             font-family: 'IM_Hyemin-Bold';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
-            font-weight: normal;
+            font-weight: bold;
             font-style: normal;
         }
-        body {font-family: 'IM_Hyemin-Bold', sans-serif}
+
+        body {
+            font-family: 'IM_Hyemin-Bold', sans-serif
+        }
     </style>
     <style>
-        .post_box {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+
+        .wrap {
+            width: 800px;
+            margin: auto;
+            padding-top: 50px;
         }
 
         #textbox {
@@ -54,12 +57,17 @@
         }
 
         h1 {
-            margin: 50px auto;
+            height : 300px;
+            padding-top: 100px;
+            text-align: center;
+            color : white;
+
+            background-image: url("https://images.unsplash.com/photo-1613462847848-f65a8b231bb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Y2hpcHN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60");
+            background-size: cover;
+            background-position: center;
+
         }
 
-        wrap {
-            width: 80%;
-        }
 
     </style>
 </head>
@@ -112,17 +120,23 @@
 <body>
 
 <div class="post_box">
-    <h1>글쓰기 (리뷰 작성)</h1>
+    <h1> 글쓰기 (리뷰 작성)</h1>
     <br>
     <div class="wrap">
-        <table class="table table-striped">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="file">
-            </div>
+        <table class="table table-sm">
+
             <tr>
                 <td>상품명</td>
                 <td colspan="5"><input type="text" style="float:left" id="post_product" placeholder="상품명 입력"
                                        name="post_product"></td>
+            </tr>
+            <tr>
+                <td>사진 첨부</td>
+                <td colspan="5">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="file">
+                    </div>
+                </td>
             </tr>
             <div class="wrap_store">
                 <tr class="store_row">
@@ -162,6 +176,9 @@
                     <button class="btn btn-warning" onclick="post()">글쓰기</button>
                 </td>
             </tr>
+
+
+
         </table>
     </div>
 </div>
