@@ -91,7 +91,7 @@
                 success: function (response) {
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token'], {path: '/'});
-                        window.location.replace("/")
+                        window.location.replace("/login")
                     } else {
                         alert(response['msg'])
                     }

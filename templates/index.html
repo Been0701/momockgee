@@ -141,11 +141,11 @@
         }
 
 
-        const login_pop = () => {
+        const logout_pop = () => {
                         $.ajax({
                 success: function (response) {
-                    alert("환영합니다!")
-                    window.location.replace("/login")
+                    alert("안녕히가세요!")
+                    window.location.replace("/")
                 }
             });
             {##}
@@ -159,7 +159,7 @@
         <div class="header">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
                 <button type="button" class="btn btn-outline-light btn-sm" onclick='window.location.href = "/posts"'>글쓰기</button>
-                <button type="button" class="btn btn-outline-light btn-sm" onclick="login_pop()">로그인</button>
+                <button type="button" class="btn btn-outline-light btn-sm" onclick="logout_pop()">로그아웃</button>
             </div>
         </div>
         <div class="title">
