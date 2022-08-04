@@ -140,13 +140,10 @@
             }
         }
 
-        const logout_pop = () => {
-                        $.ajax({
-                success: function (response) {
-                    alert("안녕히가세요!")
-                    window.location.replace("/")
-                }
-            });
+        const sign_out = () => {
+            $.removeCookie('mytoken', {path:'/'});
+            alert('로그아웃!')
+            window.location.href = '/login'
         }
 
     </script>
@@ -156,7 +153,7 @@
         <div class="header">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
                 <button type="button" class="btn btn-outline-light btn-sm" onclick='window.location.href = "/posts"'>글쓰기</button>
-                <button type="button" class="btn btn-outline-light btn-sm" onclick="logout_pop()">로그아웃</button>
+                <button type="button" class="btn btn-outline-light btn-sm" onclick="sign_out()">로그아웃</button>
             </div>
         </div>
         <div class="title">
