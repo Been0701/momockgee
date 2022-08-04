@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<head lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -9,12 +9,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-
     <title>글쓰기</title>
     <style>
         @font-face {
@@ -62,53 +60,51 @@
         }
 
     </style>
+    <script>
+        function post() {
+            let post_product = $('#post_product').val()
+            let post_store = new Array();
+            //checkbox의 name값이 sendCheck이면서 체크되어 있는 함수를 each함수로 호출한다.
+            $("input[name=post_store]:checked").each(function () {
+                post_store.push($(this).val()); //배열에 값넣기
+            });
+            console.log(post_store)
+
+            let post_star = $('#star').val()
+            let post_content = $('#content').val()
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("file_give", file)
+            form_data.append("post_product_give", post_product)
+            form_data.append("post_store_give", post_store)
+            form_data.append("post_star_give", post_star)
+            form_data.append("post_content_give", post_content)
+
+            $.ajax({
+                type: 'POST',
+                url: '/posts',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+        function resize(obj) {
+            obj.style.height = '1px';
+            obj.style.height = (10 + obj.scrollHeight) + 'px';
+        }
+
+        function to_main() {
+            window.location.href = "/"
+        }
+    </script>
 </head>
-<script>
-    function post() {
-        let post_product = $('#post_product').val()
-        let post_store = new Array();
-        //checkbox의 name값이 sendCheck이면서 체크되어 있는 함수를 each함수로 호출한다.
-        $("input[name=post_store]:checked").each(function () {
-            post_store.push($(this).val()); //배열에 값넣기
-        });
-        console.log(post_store)
-
-        let post_star = $('#star').val()
-        let post_content = $('#content').val()
-        let file = $('#file')[0].files[0]
-        let form_data = new FormData()
-
-        form_data.append("file_give", file)
-        form_data.append("post_product_give", post_product)
-        form_data.append("post_store_give", post_store)
-        form_data.append("post_star_give", post_star)
-        form_data.append("post_content_give", post_content)
-
-        $.ajax({
-            type: 'POST',
-            url: '/posts',
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (response) {
-                alert(response['msg'])
-                window.location.reload()
-            }
-        })
-    }
-
-    function resize(obj) {
-        obj.style.height = '1px';
-        obj.style.height = (10 + obj.scrollHeight) + 'px';
-    }
-
-    function to_main() {
-        window.location.href = "/"
-    }
-
-</script>
-
 <body>
 
 <div class="post_box">
